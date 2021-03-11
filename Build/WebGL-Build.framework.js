@@ -1309,7 +1309,7 @@ function _emscripten_asm_const_ii(code, a0) {
  return ASM_CONSTS[code](a0);
 }
 STATIC_BASE = GLOBAL_BASE;
-STATICTOP = STATIC_BASE + 3357600;
+STATICTOP = STATIC_BASE + 3358480;
 __ATINIT__.push({
  func: (function() {
   __GLOBAL__sub_I_AccessibilityScriptingClasses_cpp();
@@ -3239,7 +3239,7 @@ __ATINIT__.push({
   ___emscripten_environ_constructor();
  })
 });
-var STATIC_BUMP = 3357600;
+var STATIC_BUMP = 3358480;
 Module["STATIC_BASE"] = STATIC_BASE;
 Module["STATIC_BUMP"] = STATIC_BUMP;
 var tempDoublePtr = STATICTOP;
@@ -14627,6 +14627,11 @@ function nullFunc_dd(x) {
  err("Build with ASSERTIONS=2 for more info.");
  abort(x);
 }
+function nullFunc_ddd(x) {
+ err("Invalid function pointer called with signature 'ddd'. Perhaps this is an invalid value (e.g. caused by calling a virtual method on a NULL pointer)? Or calling a function with an incorrect type, which will fail? (it is worth building your source files with -Werror (warnings are errors), as warnings can indicate undefined behavior which can cause this)");
+ err("Build with ASSERTIONS=2 for more info.");
+ abort(x);
+}
 function nullFunc_dddi(x) {
  err("Invalid function pointer called with signature 'dddi'. Perhaps this is an invalid value (e.g. caused by calling a virtual method on a NULL pointer)? Or calling a function with an incorrect type, which will fail? (it is worth building your source files with -Werror (warnings are errors), as warnings can indicate undefined behavior which can cause this)");
  err("Build with ASSERTIONS=2 for more info.");
@@ -15997,12 +16002,22 @@ function nullFunc_vjji(x) {
  err("Build with ASSERTIONS=2 for more info.");
  abort(x);
 }
-Module["wasmTableSize"] = 98135;
-Module["wasmMaxTableSize"] = 98135;
+Module["wasmTableSize"] = 98137;
+Module["wasmMaxTableSize"] = 98137;
 function invoke_dd(index, a1) {
  var sp = stackSave();
  try {
   return Module["dynCall_dd"](index, a1);
+ } catch (e) {
+  stackRestore(sp);
+  if (typeof e !== "number" && e !== "longjmp") throw e;
+  Module["setThrew"](1, 0);
+ }
+}
+function invoke_ddd(index, a1, a2) {
+ var sp = stackSave();
+ try {
+  return Module["dynCall_ddd"](index, a1, a2);
  } catch (e) {
   stackRestore(sp);
   if (typeof e !== "number" && e !== "longjmp") throw e;
@@ -18758,6 +18773,7 @@ Module.asmLibraryArg = {
  "abortOnCannotGrowMemory": abortOnCannotGrowMemory,
  "abortStackOverflow": abortStackOverflow,
  "nullFunc_dd": nullFunc_dd,
+ "nullFunc_ddd": nullFunc_ddd,
  "nullFunc_dddi": nullFunc_dddi,
  "nullFunc_ddi": nullFunc_ddi,
  "nullFunc_dfi": nullFunc_dfi,
@@ -19033,6 +19049,7 @@ Module.asmLibraryArg = {
  "nullFunc_vjiiii": nullFunc_vjiiii,
  "nullFunc_vjji": nullFunc_vjji,
  "invoke_dd": invoke_dd,
+ "invoke_ddd": invoke_ddd,
  "invoke_dddi": invoke_dddi,
  "invoke_ddi": invoke_ddi,
  "invoke_dfi": invoke_dfi,
@@ -25576,6 +25593,11 @@ var dynCall_dd = Module["dynCall_dd"] = (function() {
  assert(runtimeInitialized, "you need to wait for the runtime to be ready (e.g. wait for main() to be called)");
  assert(!runtimeExited, "the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)");
  return Module["asm"]["dynCall_dd"].apply(null, arguments);
+});
+var dynCall_ddd = Module["dynCall_ddd"] = (function() {
+ assert(runtimeInitialized, "you need to wait for the runtime to be ready (e.g. wait for main() to be called)");
+ assert(!runtimeExited, "the runtime was exited (use NO_EXIT_RUNTIME to keep it alive after main() exits)");
+ return Module["asm"]["dynCall_ddd"].apply(null, arguments);
 });
 var dynCall_dddi = Module["dynCall_dddi"] = (function() {
  assert(runtimeInitialized, "you need to wait for the runtime to be ready (e.g. wait for main() to be called)");
